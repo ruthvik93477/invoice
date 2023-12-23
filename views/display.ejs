@@ -16,12 +16,39 @@
 </head>
 <body>
   <h1 class="text-center"><i>Invoice Details</i></h1>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/landing"><b><i>Home</i></b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/kpmgUpload"><b><i>KPMG</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/atkFormUpload"><b><i>AITEK INDIA</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/rzUpload"><b><i>Rizing</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/form3upload"><b><i>SEA Opns</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/atkFormUpload"><b><i>Radient</i></b></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <% data.forEach(entry => { %>
     <div id="<%= entry._id %>" >
         <div class="row mx-3 my-3">
           <div class="col">
             <div class="card">
-              <div class="card-header">
+              <!--<div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                   <li class="nav-item">
                     <a class="nav-link active bg-info mx-2 my-2" href="/landing"><b><i>Home</i></b></a>
@@ -42,7 +69,7 @@
                     <a class="nav-link active bg-secondary mx-2 my-2" href="/atkFormUpload" tabindex="-1" aria-disabled="true"><b><i>Radient</i></b></a>
                   </li>
                 </ul>
-              </div>
+              </div>-->
               <div class="card-body">
                 <h4 class="card-title"><b><i>Invoice Number: </i></b><%= entry.invoiceNumberf %></h5>
                 <p class="card-text"><b><i>Party Name: </i></b><%= entry.pn %></p>
