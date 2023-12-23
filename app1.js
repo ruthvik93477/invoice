@@ -177,7 +177,7 @@ app.post('/kpmgUpload',async(req,res)=>{
         remarks: remarks,
     });
     await inputData.save();
-    let a2 = fs.readFileSync('public/kpmgForm.html')
+    let a2 = fs.readFileSync('public/kpmgform.html')
     res.send(a2.toString());
   }
   catch(err){
