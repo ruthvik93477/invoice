@@ -12,43 +12,49 @@
     .btn{
       width: 80px;
     }
+    .highlight {
+    background-color: yellow;
+    font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <h1 class="text-center"><i>Invoice Details</i></h1>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <nav class="navbar navbar-expand-md navbar-white fixed-top bg-white">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/landing"><b><i>Home</i></b></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul class=" nav nav-pills card-header-pills">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/kpmgUpload"><b><i>KPMG</i></b></a>
+            <a class="nav-link active mx-2 my-2 bg-info" href="/landing"><b><i>Home</i></b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/atkFormUpload"><b><i>AITEK INDIA</i></b></a>
+            <a class="nav-link active mx-2 my-2 bg-warning" aria-current="page" href="/kpmgUpload"><b><i>KPMG</i></b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/rzUpload"><b><i>Rizing</i></b></a>
+            <a class="nav-link active mx-2 my-2 bg-success" href="/atkFormUpload"><b><i>AITEK_INDIA</i></b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/form3upload"><b><i>SEA Opns</i></b></a>
+            <a class="nav-link active mx-2 my-2 bg-dark" href="/rzUpload"><b><i>Rizing</i></b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/atkFormUpload"><b><i>Radient</i></b></a>
+            <a class="nav-link active mx-2 my-2 bg-danger" href="/form3upload"><b><i>SEA Opns</i></b></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active mx-2 my-2 bg-secondary" href="/atkFormUpload"><b><i>Radient</i></b></a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+  <h1 class="text-center mt-5 pt-3"><i>Invoice Details</i></h1>
   <% data.forEach(entry => { %>
     <div id="<%= entry._id %>" >
         <div class="row mx-3 my-3">
           <div class="col">
             <div class="card">
-              <!--<div class="card-header">
+             <!-- <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                   <li class="nav-item">
                     <a class="nav-link active bg-info mx-2 my-2" href="/landing"><b><i>Home</i></b></a>
@@ -81,6 +87,7 @@
             </div>
           </div>
         </div>
+        <div id="searchResults"></div>
       <div class="card mx-4 my-4">
         <div class="mx-3 my-3">
           <form id="form-<%= entry._id %>" onsubmit="save('<%= entry._id %>'); return false;" style="display:none;">
