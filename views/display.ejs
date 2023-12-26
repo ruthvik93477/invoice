@@ -12,9 +12,16 @@
     .btn{
       width: 80px;
     }
-    .highlight {
-    background-color: yellow;
-    font-weight: bold;
+    body{
+      background-color: rgb(242, 187, 115);
+    }
+    #paidCheckbox{
+      width: 20px;
+      height: 20px;
+    }
+    #notPaidCheckbox{
+      width: 20px;
+      height: 20px;
     }
   </style>
 </head>
@@ -49,33 +56,15 @@
     </div>
   </nav>
   <h1 class="text-center mt-5 pt-3"><i>Invoice Details</i></h1>
+  <div class="ms-5">
+    <input type="checkbox" class="form-check-input" id="paidCheckbox" onchange="filterDocuments()"> <b>Paid</b><br>
+    <input type="checkbox" class="form-check-input" id="notPaidCheckbox" onchange="filterDocuments()"> <b>Not Paid</b>
+  </div>
   <% data.forEach(entry => { %>
     <div id="<%= entry._id %>" >
         <div class="row mx-3 my-3">
           <div class="col">
             <div class="card">
-             <!-- <div class="card-header">
-                <ul class="nav nav-pills card-header-pills">
-                  <li class="nav-item">
-                    <a class="nav-link active bg-info mx-2 my-2" href="/landing"><b><i>Home</i></b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active bg-warning mx-2 my-2" href="/kpmgUpload"><b><i>KPMG</i></b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active mx-2 my-2 bg-success" href="/atkFormUpload"><b><i>AITEK INDIA</i></b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active bg-dark mx-2 my-2" href="/rzUpload" tabindex="-1" aria-disabled="true"><b><i>Rizing</i></b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active bg-danger mx-2 my-2" href="/form3upload" tabindex="-1" aria-disabled="true"><b><i>SEA Opns</i></b></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active bg-secondary mx-2 my-2" href="/atkFormUpload" tabindex="-1" aria-disabled="true"><b><i>Radient</i></b></a>
-                  </li>
-                </ul>
-              </div>-->
               <div class="card-body">
                 <h4 class="card-title"><b><i>Invoice Number: </i></b><%= entry.invoiceNumberf %></h5>
                 <p class="card-text"><b><i>Party Name: </i></b><%= entry.pn %></p>
@@ -118,7 +107,6 @@
       const entryDiv = document.getElementById(id);
       const editButton = entryDiv.querySelector('button');
       const form = document.getElementById('form-' + id);
-
       editButton.style.display = 'none';
       form.style.display = 'block';
     }
@@ -129,6 +117,7 @@
       const newStatus = document.getElementById('status-' + id).value;
       const newCompanyName = document.getElementById('companyName-'+id).value;
       const newRemarks = document.getElementById('remarks-'+id).value;
+
 
       const response = await fetch(`/update/${id}`, {
         method: 'POST',
@@ -144,23 +133,22 @@
         }),
       });
       window.location.reload();
-      /*if (response) {
-        const entryDiv = document.getElementById(id);
-        entryDiv.querySelector('h4').innerText = newInvoiceNumber;
-        entryDiv.querySelector('p:nth-child(2)').innerText = 'Party Name: ' + newPartyName;
-        entryDiv.querySelector('p:nth-child(3)').innerText = 'Company Name: ' + newCompanyName;
-        entryDiv.querySelector('p:nth-child(4)').innerText = 'Status: ' + newStatus;
-        entryDiv.querySelector('p:nth-child(5)').innerText = 'Remarks: ' + newRemarks;
+    }
+    function filterDocuments() {
+      const paidCheckbox = document.getElementById('paidCheckbox');
+      const notPaidCheckbox = document.getElementById('notPaidCheckbox');
 
-        // Re-enable the Edit button after saving
-        const editButton = entryDiv.querySelector('button');
-        const form = document.getElementById('form-' + id);
+      const allDocuments = document.querySelectorAll('.row');
+      
+      allDocuments.forEach(document => {
+        const status = document.querySelector('.card-text:nth-child(4)').textContent.split(':')[1].trim();
 
-        editButton.style.display = 'inline';
-        form.style.display = 'none';
-      } else {
-        alert('Failed to update data');
-      }*/
+        if ((paidCheckbox.checked && status === 'Paid') || (notPaidCheckbox.checked && status !== 'Paid')) {
+          document.style.display = 'block';
+        } else {
+          document.style.display = 'none';
+        }
+      });
     }
   </script>
 </body>
