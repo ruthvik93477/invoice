@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,10 +22,22 @@
       width: 20px;
       height: 20px;
     }
+    #paidCheckbox1{
+      width: 20px;
+      height: 20px;
+    }
+    #notPaidCheckbox1{
+      width: 20px;
+      height: 20px;
+    }
+    #dropdownOptions{
+      height: 48px;
+      border-radius: 20px;
+    }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-white fixed-top bg-white">
+  <nav class="navbar navbar-expand-lg navbar-white fixed-top bg-light">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -55,10 +66,37 @@
       </div>
     </div>
   </nav>
-  <h1 class="text-center mt-5 pt-3"><i>Invoice Details</i></h1>
-  <div class="ms-5">
-    <input type="checkbox" class="form-check-input" id="paidCheckbox" onchange="filterDocuments()"> <b>Paid</b><br>
-    <input type="checkbox" class="form-check-input" id="notPaidCheckbox" onchange="filterDocuments()"> <b>Not Paid</b>
+  <h1 class="text-center mt-5 pt-4"><i>Invoice Details</i></h1>
+  <div class="d-flex">
+    <div class="w-25 ms-5">
+      <select id="dropdownOptions"  class="form-select">
+        <option selected disabled>Select Party Name</option>
+        <option value="Radiant Digital Solutions Private Limited">Radiant Digital Solutions Private Limited</option>
+        <option value="RIZING SDN BHD(1142727-A)">RIZING SDN BHD(1142727-A)</option>
+        <option value="O2F INFO SOLUTIONS PRIVATE LIMITED">O2F INFO SOLUTIONS PRIVATE LIMITED</option>
+        <option value="KPMG Services Pte Ltd">KPMG Services Pte Ltd</option>
+        <option value="GAPbuster Worldwide Malaysia Sdn. Bhd">GAPbuster Worldwide Malaysia Sdn. Bhd</option>
+        <option value="C2C INNOVATIONS PTE. LTD">C2C INNOVATIONS PTE. LTD</option>
+        <option value="INFOSYS SINGAPORE PTE. LTD">INFOSYS SINGAPORE PTE. LTD</option>
+        <option value="ABeam Analytics Pte. Ltd">ABeam Analytics Pte. Ltd</option>
+        <option value="ABeam Consulting (S) Pte Ltd">ABeam Consulting (S) Pte Ltd</option>
+        <option value="ASTA INNOSYS PTE. LTD">ASTA INNOSYS PTE. LTD</option>
+        <option value="WIPRO LIMITED">WIPRO LIMITED</option>
+        <option value="BIRLASOFT LIMITED(SINGAPORE BRANCH)">BIRLASOFT LIMITED(SINGAPORE BRANCH)</option>
+        <option value="AITEK PVK SDN BHD">AITEK PVK SDN BHD</option>
+        <option value="Kaisa Consulting Company Inc.">Kaisa Consulting Company Inc.</option>
+        <option value="HGC Global communications Limited">HGC Global communications Limited</option>
+        <option value="AITEK PVK IT SERVICES INC">AITEK PVK IT SERVICES INC</option>
+      </select>   
+    </div>
+    <div class="ms-5">
+      <input type="checkbox" class="form-check-input" id="paidCheckbox" onchange="filterDocuments()"> <b>Paid</b><br>
+      <input type="checkbox" class="form-check-input" id="notPaidCheckbox" onchange="filterDocuments()"> <b>Not Paid</b>
+    </div>
+    <div class="ms-5">
+      <input type="checkbox" class="form-check-input" id="paidCheckbox1" onchange="filterDocuments1()"> <b>All Paid Details</b><br>
+      <input type="checkbox" class="form-check-input" id="notPaidCheckbox1" onchange="filterDocuments1()"> <b>All Due Details</b>
+    </div>
   </div>
   <% data.forEach(entry => { %>
     <div id="<%= entry._id %>" >
@@ -77,9 +115,7 @@
           </div>
         </div>
         <div id="searchResults"></div>
-      <div class="card mx-4 my-4">
-        <div class="mx-3 my-3">
-          <form id="form-<%= entry._id %>" onsubmit="save('<%= entry._id %>'); return false;" style="display:none;">
+          <form id="form-<%= entry._id %>" onsubmit="save('<%= entry._id %>'); return false;" style="display:none;" class="card mx-4 my-4 save p-3">
             <label for="invoiceNumberf-"><b><i>Invoice Number: </i></b></label>
             <input type="text" id="invoiceNumberf-<%= entry._id %>" value="<%= entry.invoiceNumberf %>" required class="form-control">
             <br>
@@ -97,8 +133,6 @@
             <br>
             <button type="submit" class="btn btn-success"><b><i>Save</i></b></button>
           </form>
-        </div>
-      </div>
     </div>
   <% }) %>
 
@@ -118,7 +152,6 @@
       const newCompanyName = document.getElementById('companyName-'+id).value;
       const newRemarks = document.getElementById('remarks-'+id).value;
 
-
       const response = await fetch(`/update/${id}`, {
         method: 'POST',
         headers: {
@@ -137,6 +170,20 @@
     function filterDocuments() {
       const paidCheckbox = document.getElementById('paidCheckbox');
       const notPaidCheckbox = document.getElementById('notPaidCheckbox');
+      const dropdown = document.getElementById('dropdownOptions');
+      const allDocuments = document.querySelectorAll('.row');
+      const selectedOption = dropdown.value;
+
+      allDocuments.forEach(document => {
+        const partyName = document.querySelector('.card-text:nth-child(2)').textContent.split(':')[1].trim();
+        const status = document.querySelector('.card-text:nth-child(4)').textContent.split(':')[1].trim();
+        const shouldDisplay = (partyName === selectedOption) && ((paidCheckbox.checked && status === 'Paid') || (notPaidCheckbox.checked && status !== 'Paid'));
+        document.style.display = shouldDisplay ? 'block' : 'none';
+  });
+}
+function filterDocuments1() {
+      const paidCheckbox = document.getElementById('paidCheckbox1');
+      const notPaidCheckbox = document.getElementById('notPaidCheckbox1');
 
       const allDocuments = document.querySelectorAll('.row');
       
@@ -150,6 +197,6 @@
         }
       });
     }
-  </script>
+</script>
 </body>
 </html>
